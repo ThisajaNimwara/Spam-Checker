@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam/Ham Email Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="container max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Spam/Ham Email Detector</h1>
+        
+        <!-- Tabs for input type -->
+        <div class="flex justify-center mb-4">
+            <button class="tab-btn active px-4 py-2 bg-blue-500 text-white rounded-l-md" onclick="switchTab('paste')">Paste Email</button>
+            <button class="tab-btn px-4 py-2 bg-gray-300 text-gray-800 rounded-r-md" onclick="switchTab('upload')">Upload File</button>
+        </div>
+        
+        <!-- Paste Email Form -->
+        <div id="paste-form" class="tab-content">
+            <textarea id="emailInput" class="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Paste your email (subject + body) here..." rows="10"></textarea>
+            <button id="analyzePasteBtn" class="w-full mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Analyze Email</button>
+        </div>
+        
+        <!-- Upload File Form -->
+        <div id="upload-form" class="tab-content hidden">
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" id="emailFile" name="email_file" accept=".eml,.msg" class="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="submit" id="analyzeUploadBtn" class="w-full mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Analyze File</button>
+            </form>
+        </div>
+        
+        <!-- Loading Indicator -->
+        <div id="loading" class="hidden text-center mt-4 text-gray-500 italic">
+            <svg class="animate-spin inline-block w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-8 8 8 8 0 01-8-8z"></path>
+            </svg>
+            Analyzing...
+        </div>
+        
+        <!-- Result Section -->
+        <div id="result" class="hidden mt-4 p-4 rounded-md">
+            <h2 class="text-xl font-semibold">Verdict: <span id="label"></span> (Confidence: <span id="confidence"></span>%)</h2>
+            <button id="toggleDetails" class="mt-2 text-blue-500 underline">Show Details</button>
+            <div id="details" class="hidden mt-2 text-sm"></div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
